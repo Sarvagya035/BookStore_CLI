@@ -29,6 +29,10 @@ func getbooks() []Book {
 	return books
 }
 
+func savebooks() {
+
+}
+
 func HandleallBooks(getCmd *flag.FlagSet, all *bool, id *string) {
 
 	getCmd.Parse(os.Args[2:])

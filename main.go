@@ -24,6 +24,18 @@ func main() {
 	getall := getCmd.Bool("all", false, "List all the books")
 	getid := getCmd.String("id", "", "List book by particular Id")
 
+	/*
+
+		add books --id --title --author --price --imageurl
+	*/
+
+	addCmd := flag.NewFlagSet("add", flag.ExitOnError)
+	addid := addCmd.String("id", "", "Unique ID of the book")
+	addTitle := addCmd.String("title", "", "Title of the book")
+	addAuthor := addCmd.String("author", "", "Author name of the book")
+	addPrice := addCmd.String("price", "", "Price of the book")
+	addimageurl := addCmd.String("imageurl", "", "imageurl name of the book")
+
 	if len(os.Args) < 2 {
 		fmt.Println("expected 'get' subcommand")
 		os.Exit(1)
