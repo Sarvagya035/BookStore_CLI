@@ -112,3 +112,73 @@ func AddBook(addCmd *flag.FlagSet, id *string, title *string, author *string, pr
 	checkerr(err)
 	fmt.Println("New book added sucessfully")
 }
+
+func Delbooks(delCmd *flag.FlagSet, id *string) {
+
+	delCmd.Parse(os.Args[2:])
+
+	if *id == "" {
+
+		fmt.Println("subcommand --id needed")
+		delCmd.PrintDefaults()
+		os.Exit(1)
+	}
+
+	books := getbooks()
+	var foundBook bool
+
+	for i, book := range books {
+
+		if *id == book.ID {
+			foundBook = true
+			books = append(books[:i], books[i+1:]...)
+			break
+		}
+	}
+
+	if !foundBook {
+
+		fmt.Println("Book not found")
+		os.Exit(1)
+
+	}
+
+	err := savebooks(books)
+	checkerr(err)
+	fmt.Println("book deleted sucessfully")
+}
+
+func UpdateBooks(updateCmd *flag.FlagSet, id *string, title *string, author *string, price *string, imageurl *string) {
+
+	updateCmd.Parse(os.Args[2:])
+
+	if *id == "" {
+
+		fmt.Println("subcommand --id needed")
+		updateCmd.PrintDefaults()
+		os.Exit(1)
+	}
+
+	books := getbooks()
+
+	var foundbook bool
+
+	for i, book := range books {
+
+		if *id == book.ID {
+			books[i] = Book{*id, *title, *author, *price, *imageurl}
+			foundbook = true
+		}
+	}
+
+	if !foundbook {
+		fmt.Println("Book not found")
+		os.Exit(1)
+	}
+
+	err := savebooks(books)
+	checkerr(err)
+
+	fmt.Println("Book added sucessfuly")
+
+}

@@ -36,6 +36,25 @@ func main() {
 	addPrice := addCmd.String("price", "", "Price of the book")
 	addimageurl := addCmd.String("imageurl", "", "imageurl name of the book")
 
+	/*
+		delete books --id
+	*/
+
+	delCmd := flag.NewFlagSet("delete", flag.ExitOnError)
+	delid := delCmd.String("id", "", "id of book to be deleted")
+
+	/*
+
+		update books --id --title --author --price --imageurl
+	*/
+
+	updateCmd := flag.NewFlagSet("update", flag.ExitOnError)
+	updateid := updateCmd.String("id", "", "Unique ID of the book")
+	updateTitle := updateCmd.String("title", "", "Title of the book")
+	updateAuthor := updateCmd.String("author", "", "Author name of the book")
+	updatePrice := updateCmd.String("price", "", "Price of the book")
+	updateimageurl := updateCmd.String("imageurl", "", "imageurl name of the book")
+
 	if len(os.Args) < 2 {
 		fmt.Println("expected 'get' subcommand")
 		os.Exit(1)
@@ -47,6 +66,11 @@ func main() {
 		HandleallBooks(getCmd, getall, getid)
 	case "add":
 		AddBook(addCmd, addid, addTitle, addAuthor, addPrice, addimageurl)
+	case "delete":
+		Delbooks(delCmd, delid)
+	case "update":
+		UpdateBooks(updateCmd, updateid, updateTitle, updateAuthor, updatePrice, updateimageurl)
+
 	default:
 		fmt.Println("Please provide get, update, update, delete commands")
 		os.Exit(1)
