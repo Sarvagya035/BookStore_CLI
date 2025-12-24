@@ -29,8 +29,15 @@ func getbooks() []Book {
 	return books
 }
 
-func savebooks() {
+func savebooks(books []Book) error {
 
+	booksbyte, err := json.Marshal(books)
+	checkerr(err)
+
+	err = os.WriteFile("./books.json", booksbyte, 0644)
+	checkerr(err)
+
+	return err
 }
 
 func HandleallBooks(getCmd *flag.FlagSet, all *bool, id *string) {
@@ -81,4 +88,27 @@ func HandleallBooks(getCmd *flag.FlagSet, all *bool, id *string) {
 		}
 	}
 
+}
+
+func AddBook(addCmd *flag.FlagSet, id *string, title *string, author *string, price *string, imageurl *string) {
+
+	addCmd.Parse(os.Args[2:])
+
+	if *id == "" || *title == "" || *author == "" || *price == "" || *imageurl == "" {
+
+		fmt.Println("subcommand --all or --id needed")
+		addCmd.PrintDefaults()
+		os.Exit(1)
+	}
+
+	books := getbooks()
+
+	var newBook Book
+
+	newBook = Book{*id, *title, *author, *price, *imageurl}
+	books = append(books, newBook)
+
+	err := savebooks(books)
+	checkerr(err)
+	fmt.Println("New book added sucessfully")
 }

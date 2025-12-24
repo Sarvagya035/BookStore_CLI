@@ -45,6 +45,8 @@ func main() {
 
 	case "get":
 		HandleallBooks(getCmd, getall, getid)
+	case "add":
+		AddBook(addCmd, addid, addTitle, addAuthor, addPrice, addimageurl)
 	default:
 		fmt.Println("Please provide get, update, update, delete commands")
 		os.Exit(1)
